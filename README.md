@@ -1,123 +1,134 @@
 # BensBargains Clicker
 
-A Python script that automates clicking on product links on BensBargains.com through a proxy.
-
-## Features
-
-- Connect via user-specified proxy
-- Search for multiple user-defined products
-- Automatically click orange "Go To Store" or "Copy Code & Go To Store" buttons
-- Repeat the process for a user-specified number of times
-- Wait a user-specified delay between rounds
-- Provide a summary of results
+This script automates the process of searching for products on BensBargains.com and clicking the "GO TO STORE" button for each product.
 
 ## Requirements
 
-- Python 3.6+
-- Google Chrome browser (latest version recommended)
-- ChromeDriver (will be automatically installed)
+- Python 3.6 or later
+- One of the following browsers:
+  - Chrome browser + ChromeDriver
+  - Firefox browser + GeckoDriver
+  - Edge browser + EdgeDriver
 
 ## Installation
 
-1. Clone or download this repository
+1. Clone this repository or download the files.
 
-2. Install the required dependencies:
-```
-pip install -r requirements.txt
-```
+2. Install the required packages:
+   ```
+   pip install -r requirements.txt
+   ```
 
-3. Make sure you have Google Chrome installed on your system
+3. Make sure you have at least one of the supported browsers installed on your system.
 
-4. If you encounter any ChromeDriver issues:
-   - Make sure Chrome is up to date
-   - Try running the script with administrator privileges
-   - If using a virtual environment, make sure to install the requirements in that environment
+4. Download the appropriate WebDriver for your browser:
+   - ChromeDriver (for Chrome): [Download](https://sites.google.com/chromium.org/driver/)
+   - GeckoDriver (for Firefox): [Download](https://github.com/mozilla/geckodriver/releases)
+   - EdgeDriver (for Edge): [Download](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/)
+
+   Make sure the WebDriver is in your system's PATH or in the same directory as the script.
 
 ## Usage
 
 1. Run the script:
-```
-python bensbargains_clicker.py
-```
+   ```
+   python bensbargains_clicker.py
+   ```
+   
+   Alternatively, on Windows, you can double-click the `run_clicker.bat` file.
 
-2. Follow the prompts to enter:
-   - Proxy in format `IP:PORT` (e.g., `5.79.66.2:13010`)
-   - Products to search for (one per line, press Enter twice when done)
+2. Select which browser to use:
+   - 1 for Chrome
+   - 2 for Firefox
+   - 3 for Edge
+
+3. When prompted, choose to input products manually or load from a file:
+   - For manual input (m): Enter product names one per line, then press Enter twice to finish
+   - For file input (f): Enter the path to a text file with product names (one per line)
+
+4. Enter:
    - Number of times to repeat the process
-   - Delay between rounds (in seconds)
+   - Delay between repeats (in seconds)
 
-3. The script will then:
-   - Navigate to BensBargains.com
+5. The script will:
+   - Open BensBargains.com
    - Search for each product
-   - Click the orange button for each found product
-   - Repeat the process as specified
-   - Display a summary of results
+   - Click the "GO TO STORE" button if found
+   - Repeat the process the specified number of times
+   - Provide a summary of results
 
-## Example
+## Example Product File Format
 
+Create a text file with one product per line:
 ```
-=== BensBargains.com Clicker ===
-
-Enter proxy (format: IP:PORT): 5.79.66.2:13010
-
-Enter products (one per line, press Enter twice when done)
-OR paste a comma-separated list of products:
-Zone Tech American Flag Hitch Cover
-Black Boar UTV / ATV Multi-Hitch (2" Ball)
-Pro-Keds Royal Lo Lace Up Unisex Sneakers
-
-Products to search for:
-1. Zone Tech American Flag Hitch Cover
-2. Black Boar UTV / ATV Multi-Hitch (2" Ball)
-3. Pro-Keds Royal Lo Lace Up Unisex Sneakers
-
-Enter how many times to repeat the process: 5
-
-Enter delay between rounds (in seconds): 60
-
---- Round 1/5 ---
-Looking for: Zone Tech American Flag Hitch Cover
-✓ Found and clicked for: Zone Tech American Flag Hitch Cover
-Looking for: Black Boar UTV / ATV Multi-Hitch (2" Ball)
-✓ Found and clicked for: Black Boar UTV / ATV Multi-Hitch (2" Ball)
-Looking for: Pro-Keds Royal Lo Lace Up Unisex Sneakers
-✓ Found and clicked for: Pro-Keds Royal Lo Lace Up Unisex Sneakers
-
-Waiting 60 seconds before next round...
-
-...
-
-=== Summary ===
-Products found and clicked: 15 out of 15 attempts
-Total clicks performed: 15
-Total time elapsed: 362.45 seconds
+Garmin Instinct 2 Solar GPS Outdoor Watch
+2-Pack Wet Brush Easy Blowout Detangling Hair Brush
+Apple AirPods Pro
+Samsung 65" QLED TV
 ```
 
-## Notes
+A sample file `sample_products.txt` is included with the script.
 
-- The script handles both types of orange buttons: "Go To Store" and "Copy Code & Go To Store"
-- If a new tab is opened when clicking a button, the script will close it and return to the original tab
-- The script uses partial matching to find products, so it may find similar but not exact matches
+## Interactive Example
+
+```
+BensBargains Product Clicker
+==============================
+
+Select browser (1=Chrome, 2=Firefox, 3=Edge): 1
+
+Do you want to input products manually or load from a file? (m/f): m
+
+Enter product names (one per line, press Enter twice to finish):
+Garmin Instinct 2 Solar GPS Outdoor Watch
+2-Pack Wet Brush Easy Blowout Detangling Hair Brush
+
+
+Enter number of times to repeat the process: 5
+
+Enter delay between repeats (in seconds): 60
+
+Starting automation with 2 products, repeating 5 times with 60s delay.
+```
+
+## Features
+
+- Support for multiple browsers (Chrome, Firefox, Edge)
+- Advanced SSL error handling for better connectivity
+- Fallback to HTTP if HTTPS connection fails
+- Multiple search methods for improved reliability
+- Multiple button detection strategies
+- Search for multiple products on BensBargains.com
+- Automatically click "GO TO STORE" buttons
+- Load product lists from a file
+- Set custom delay between iterations
+- Error handling for failed searches or button clicks
+- Detailed summary of results
+
+## Browser Recommendations
+
+- **Firefox**: Best option for handling SSL issues with BensBargains.com
+- **Chrome**: Good performance once SSL issues are resolved
+- **Edge**: Alternative option for Windows users
 
 ## Troubleshooting
 
 If you encounter any issues:
 
-1. ChromeDriver Issues:
-   - Make sure Chrome is installed and up to date
-   - Try running the script with administrator privileges
-   - Check if your antivirus is blocking ChromeDriver
+- Make sure the WebDriver matches your browser version
+- Check your internet connection
+- Verify that BensBargains.com is accessible
+- Try using Firefox if Chrome or Edge has SSL connection problems
+- If buttons aren't being clicked, the site layout may have changed, but the script now includes multiple fallback methods
+- Press CTRL+C to stop the script at any time (a summary will still be displayed)
 
-2. Proxy Issues:
-   - Verify the proxy is working and accessible
-   - Try using a different proxy
-   - Check if the proxy requires authentication
+### SSL Certificate Errors
 
-3. Website Access Issues:
-   - Check your internet connection
-   - Verify the proxy is not blocked by BensBargains.com
-   - Try increasing the delay between rounds
+The script includes comprehensive options to handle SSL certificate errors when connecting to BensBargains.com:
 
-4. Button Clicking Issues:
-   - The script will try multiple methods to find and click buttons
-   - If a button is not found, it will log the issue and continue with the next product 
+1. Automatic fallback to HTTP if HTTPS fails
+2. Disabled SSL verification and warnings
+3. Browser-specific SSL error handling for each supported browser
+4. Multiple fallback mechanisms for searches and button clicks
+
+If you still see SSL error messages in the console, don't worry - these are suppressed by the script and won't affect functionality. The script will automatically try alternative methods to connect and interact with the website. 
