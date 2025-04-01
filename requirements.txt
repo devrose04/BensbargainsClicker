@@ -1,0 +1,4 @@
+undetected-chromedriver==3.5.3
+selenium==4.9.1
+blinker==1.6.2
+webdriver-manager==3.8.3 
