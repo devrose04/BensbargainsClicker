@@ -82,23 +82,53 @@ def setup_driver(proxy):
     
     # Set proxy if provided
     if proxy:
+        print(f"Setting up proxy: {proxy}")
         options.add_argument(f'--proxy-server={proxy}')
+        # Add additional proxy-related options
+        options.add_argument('--proxy-bypass-list=*')
+        options.add_argument('--ignore-certificate-errors')
+        options.add_argument('--allow-running-insecure-content')
     
     # Additional options to make browser more stable
     options.add_argument("--start-maximized")
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--disable-extensions")
+    options.add_argument("--disable-popup-blocking")
     
     try:
         print("Initializing Chrome browser...")
-        driver = uc.Chrome(options=options)
+        print("Checking Chrome installation...")
+        # Try to get Chrome version
+        try:
+            import subprocess
+            chrome_version = subprocess.check_output(
+                ['reg', 'query', 'HKEY_CURRENT_USER\\Software\\Google\\Chrome\\BLBeacon', '/v', 'version'],
+                stderr=subprocess.DEVNULL,
+                stdin=subprocess.DEVNULL
+            ).decode('UTF-8').strip().split()[-1]
+            print(f"Chrome version detected: {chrome_version}")
+        except:
+            print("Could not detect Chrome version. Make sure Chrome is installed.")
+        
+        print("Creating Chrome driver...")
+        # Add version_main parameter to match Chrome version
+        driver = uc.Chrome(options=options, version_main=134)  # Using your detected Chrome version
         driver.set_page_load_timeout(30)
+        print("Chrome driver initialized successfully!")
         return driver
     except Exception as e:
         print(f"Error initializing Chrome browser: {e}")
-        print("\nPlease make sure Chrome is installed on your system.")
-        raise Exception("Failed to initialize Chrome browser. Please make sure Chrome is installed and up to date.")
+        print("\nTroubleshooting steps:")
+        print("1. Make sure Chrome is installed on your system")
+        print("2. Try running Chrome manually to ensure it works")
+        print("3. Check if your proxy is working correctly")
+        print("4. Try running the script without a proxy first")
+        print("5. Make sure you have the latest version of Chrome installed")
+        print("6. Try using a different proxy server")
+        print("7. Check if your proxy requires authentication")
+        raise Exception("Failed to initialize Chrome browser. Please check the troubleshooting steps above.")
 
 
 def search_product(driver, product_name):
